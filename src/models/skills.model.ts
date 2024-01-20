@@ -5,7 +5,7 @@ class SkillsModel {
         return await db.query(`SELECT * FROM skills`);
     }
 
-    public async addSkills(skillName: any) {
+    public async addSkills(skillName: string) {
         return await db.query(`INSERT INTO skills (name) VALUES ($1) RETURNING *`, [skillName])
     }
 }

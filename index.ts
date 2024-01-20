@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import runDbMigrations from './src/config/db/migrations'
 import candidatesRouter from './src/routes/candidates.routes';
 import skillsRouter from './src/routes/skills.routes';
+import candidatesSkillsRouter from './src/routes/candidate-skills.routes'
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -30,5 +31,6 @@ app.get('/', async (req, res) => {
 
 app.use('/api', candidatesRouter);
 app.use('/api', skillsRouter);
+app.use('/api', candidatesSkillsRouter);
 
 start()

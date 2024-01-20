@@ -11,7 +11,7 @@ class SkillsService {
         return await this.skillsModel.getSkills();
     }
 
-    public async addSkills(skillName: any) {
+    public async addSkills(skillName: string) {
         return await this.skillsModel.addSkills(skillName)
     }
 
