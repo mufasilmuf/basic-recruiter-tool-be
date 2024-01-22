@@ -13,9 +13,19 @@ class CandidatesController {
 
     public async getAllCandidates(req: Request, res: Response) {
         try {
-            const candidates = await this.candidateService.getAllCandidates();
+            const candidates = await this.candidateService.getAllCandidate();
+            const candidatesData = candidates.rows;
+            const uniqueCandidateIds = new Set();
 
-            res.status(200).json({ candidates: candidates.rows });
+            const uniqueCandidates = candidatesData.filter(candidate => {
+                if (!uniqueCandidateIds.has(candidate.candidate_id)) {
+                    uniqueCandidateIds.add(candidate.candidate_id);
+                    return true;
+                }
+                return false;
+            });
+            ;
+            res.status(200).json({ candidates: uniqueCandidates });
         } catch (error) {
             res.status(500).json({ error: "Internal Server Error" });
         }
@@ -79,6 +89,7 @@ class CandidatesController {
             res.status(201).json({ message: 'Candidates updated successfully!' })
         }
         catch (err) {
+            console.log(err)
             res.status(500).json({ error: "Internal Server Error" });
         }
     }

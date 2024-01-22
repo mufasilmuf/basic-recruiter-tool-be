@@ -7,7 +7,7 @@ class CandidatesService {
         this.candidateModel = new CandidatesModel();
     }
 
-    public async getAllCandidates() {
+    public async getAllCandidate() {
         return await this.candidateModel.getAllCandidates();
     }
 
