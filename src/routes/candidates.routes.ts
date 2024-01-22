@@ -8,6 +8,10 @@ router.get('/candidates', async (req, res) => {
     await candidatesController.getAllCandidates(req, res);
 });
 
+router.get('/candidates/:candidateId', async (req, res) => {
+    await candidatesController.getCandidateById(req, res);
+});
+
 router.post('/candidates', async (req, res) => {
     await candidatesController.addNewCandidates(req, res);
 });

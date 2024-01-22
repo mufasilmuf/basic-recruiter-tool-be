@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import runDbMigrations from './src/config/db/migrations'
 import candidatesRouter from './src/routes/candidates.routes';
@@ -9,6 +10,7 @@ import candidatesSkillsRouter from './src/routes/candidate-skills.routes'
 dotenv.config();
 const PORT = process.env.PORT;
 const app = express();
+app.use(cors());
 
 async function start() {
     await runDbMigrations();

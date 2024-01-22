@@ -34,6 +34,44 @@ class CandidatesModel {
         `);
     }
 
+    public async getCandidateById(candidateId: number) {
+        return await db.query(
+            `
+        SELECT
+        candidates.id AS candidate_id,
+        candidates.name,
+        candidates.email,
+        candidates.phone,
+        candidates.qualification,
+        candidates.current_status,
+        candidates.expected_salary,
+        candidates.computed_score,
+        candidates.created_at AS candidate_created_at,
+        candidates.updated_at AS candidate_updated_at,
+        json_agg(
+            json_build_object(
+                'skill_id', skills.id,
+                'name', skills.name,
+                'experience', candidateSkills.experience
+            )
+        ) AS skills
+    FROM
+        candidates
+    LEFT JOIN
+        candidateSkills ON candidates.id = candidateSkills.candidate_id
+    LEFT JOIN
+        skills ON candidateSkills.skill_id = skills.id
+    WHERE
+        candidates.id = $1
+    GROUP BY
+        candidates.id, candidateSkills.experience, skills.id
+    ORDER BY
+        candidates.id;
+        `,
+            [candidateId]
+        );
+    }
+
     public async addNewCandidates(
         name: string,
         email: string,
@@ -41,15 +79,17 @@ class CandidatesModel {
         qualification: string,
         currentStatus: string,
         expectedSalary: number,
-        computedScore: number
+        computedScore: number,
+        skillIds: number[]
     ) {
         return await db.query(
             `
             INSERT INTO candidates (
-            name, email, phone, qualification, current_status, expected_salary, computed_score
+                name, email, phone, qualification, current_status,
+                expected_salary, computed_score, skillIds
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING *
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            RETURNING *;
         `,
             [
                 name,
@@ -59,6 +99,7 @@ class CandidatesModel {
                 currentStatus,
                 expectedSalary,
                 computedScore,
+                skillIds,
             ]
         );
     }
@@ -71,7 +112,6 @@ class CandidatesModel {
         qualification: string,
         currentStatus: string,
         expectedSalary: number,
-        computedScore: number
     ) {
         return await db.query(
             `
@@ -83,7 +123,6 @@ class CandidatesModel {
             qualification = $5,
             current_status = $6,
             expected_salary = $7,
-            computed_score = $8,
             updated_at = CURRENT_TIMESTAMP
         WHERE id = $1
         RETURNING *
@@ -96,7 +135,6 @@ class CandidatesModel {
                 qualification,
                 currentStatus,
                 expectedSalary,
-                computedScore,
             ]
         );
     }

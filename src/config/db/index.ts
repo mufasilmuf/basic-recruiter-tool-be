@@ -1,11 +1,13 @@
 import pg from 'pg';
+import dotenv from 'dotenv';
+dotenv.config()
 
 const db = new pg.Pool({
-    host: 'localhost',
+    host: process.env.HOST,
     port: 5432,
-    user: 'postgres',
-    password: 'Mufeeth01',
-    database: 'recruiter_tool_db',
+    user: 'ziipikwn',
+    password: process.env.PASSWORD,
+    database: 'ziipikwn',
 });
 
 export default db;

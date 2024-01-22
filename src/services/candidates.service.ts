@@ -11,6 +11,10 @@ class CandidatesService {
         return await this.candidateModel.getAllCandidates();
     }
 
+    public async getCandidateById(candidateId: number) {
+        return await this.candidateModel.getCandidateById(candidateId)
+    }
+
     public async addNewCandidates(
         name: string,
         email: string,
@@ -18,7 +22,8 @@ class CandidatesService {
         qualification: string,
         currentStatus: string,
         expectedSalary: number,
-        computedScore: number
+        computedScore: number,
+        skillIds: number[],
     ) {
         return await this.candidateModel.addNewCandidates(
             name,
@@ -27,7 +32,8 @@ class CandidatesService {
             qualification,
             currentStatus,
             expectedSalary,
-            computedScore
+            computedScore,
+            skillIds,
         );
     }
 
@@ -39,7 +45,7 @@ class CandidatesService {
         qualification: string,
         currentStatus: string,
         expectedSalary: number,
-        computedScore: number
+
     ) {
         return this.candidateModel.updateCandidateById(
             candidateId,
@@ -49,7 +55,7 @@ class CandidatesService {
             qualification,
             currentStatus,
             expectedSalary,
-            computedScore
+
         );
     }
 

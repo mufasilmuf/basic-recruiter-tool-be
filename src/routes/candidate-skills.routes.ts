@@ -4,8 +4,12 @@ import CandidatesSkillsController from '../controllers/candidates-skills.control
 const router = express.Router();
 const candidatesSkillsController = new CandidatesSkillsController();
 
-router.post('/candidates-skills/:candidateId', async (req, res) => {
+router.post('/candidates-skills/', async (req, res) => {
     await candidatesSkillsController.addCandidateSkills(req, res);
+});
+
+router.get('/candidates-skills/:candidateId', async (req, res) => {
+    await candidatesSkillsController.getCandidateSkilsByCandidateId(req, res);
 });
 
 export default router;

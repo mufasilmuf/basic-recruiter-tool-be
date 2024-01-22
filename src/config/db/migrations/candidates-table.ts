@@ -8,6 +8,7 @@ const CandidatesTable = `
         current_status varchar(255) DEFAULT 'CONTACTED' CHECK(current_status IN ('CONTACTED', 'INTERVIEW_SCHEDULED', 'OFFER_EXTENDED', 'HIRED', 'REJECTED')),
         expected_salary decimal,
         computed_score decimal,
+        skillIds integer[] DEFAULT '{}'::integer[],
         created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
